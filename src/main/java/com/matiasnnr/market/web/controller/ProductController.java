@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 //Garantiza a Spring que esta clase va a ser un controlador de una API REST
 @RestController
@@ -18,8 +18,11 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Product>> getAll() {
-        return new ResponseEntity<>(productService.getAll(), HttpStatus.OK);
+    public ResponseEntity<?> getAll() {
+        HashMap<String, List<Product>> productHashMap = new HashMap<String, List<Product>>();
+        productHashMap.put("productList", productService.getAll());
+        return ResponseEntity.ok(productHashMap);
+        //return new ResponseEntity<>(productService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
